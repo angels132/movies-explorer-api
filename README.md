@@ -1,1 +1,1 @@
-# movies-explorer-api
+# movies-explorer-api БЭКЕНД дипломной работы
