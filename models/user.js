@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
 
-const { EMAIL_REGEX } = require('../utils/constants');
+const { EMAIL_REGEX, PASSWORD_REGEX } = require('../utils/constants');
 
 const userSchema = new Schema(
   {
@@ -21,8 +22,8 @@ const userSchema = new Schema(
       required: true,
       select: false,
       validate: {
-        validator: ({ length }) => length >= 8,
-        message: 'Пароль должен состоять минимум из 8 символов',
+        validator: (password) => PASSWORD_REGEX.test(password),
+        message: 'Пароль должен состоять минимум из 8 символов, включать 1 букву латиницы, цифру и спецсимвол',
       },
     },
 
@@ -32,6 +33,30 @@ const userSchema = new Schema(
       validate: {
         validator: ({ length }) => length >= 2 && length <= 30,
         message: 'Имя пользователя должно быть длиной от 2 до 30 символов',
+      },
+    },
+  },
+
+  {
+    statics: {
+      findUserByCredentials(email, password) {
+        return (
+          this
+            .findOne({ email })
+            .select('+password')
+        )
+          .then((user) => {
+            if (user) {
+              return bcrypt.compare(password, user.password)
+                .then((matched) => {
+                  if (matched) return user;
+
+                  return Promise.reject();
+                });
+            }
+
+            return Promise.reject();
+          });
       },
     },
   },

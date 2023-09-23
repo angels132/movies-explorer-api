@@ -1,17 +1,27 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/moviesdb')
-  .then(() => {
-    console.log('Соединение с MongoDB установлено');
-  })
-  .catch((err) => console.log(`Возникла ошибка при соединении с MongoDB: ${err}`));
+const router = require('./routes/index');
+
+const errorHandler = require('./middlewares/errorHandler');
+
+const { MONGODB_URL } = require('./utils/constants');
+
+const { PORT } = process.env;
 
 const app = express();
 
-const { PORT = 3000 } = process.env;
+mongoose.set('strictQuery', true);
+mongoose.connect(MONGODB_URL);
 
-app.listen(PORT, (err) => {
-  err ? console.log(`В процессе соединения с портом возникла ошибка: ${err}`) : console.log(`Соединение с портом № ${PORT} успешно установлено`);
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(router);
+
+app.use(errorHandler);
+
+app.listen(PORT);
