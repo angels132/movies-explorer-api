@@ -1,19 +1,62 @@
-const {
-  NODE_ENV,
-  SECRET_SIGNING_KEY,
-  MONGODB_URL,
-} = process.env;
+const RESPONSE_MESSAGES = {
+  200: {
+    movies: {
+      deletionFavourite: 'Фильм успешно удален из личного кабинета пользователя',
+    },
+  },
 
-const EMAIL_REGEX = /.+@.+\..+/;
-const PASSWORD_REGEX = /^(?=.*[A-z])(?=.*\d)(?=.*[!@#$%^&*])(?=.{8,})/;
-const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+  201: {
+    users: {
+      registrationSuccess: 'Пользователь успешно зарегистрирован на сайте',
+    },
 
-module.exports = {
-  NODE_ENV,
-  SECRET_SIGNING_KEY,
-  MONGODB_URL,
+    movies: {
+      addingFavourite: 'Фильм успешно сохранен в личном кабинете пользователя',
+    },
+  },
 
-  EMAIL_REGEX,
-  PASSWORD_REGEX,
-  URL_REGEX,
+  400: {
+    users: {
+      cast: 'Передан некорректный id пользователя',
+      passwordRequirements: 'Пароль должен состоять минимум из 8 символов, включать 1 букву латиницы, цифру и спецсимвол',
+      validationRegistration: 'Переданы некорректные данные при регистрации пользователя',
+      validationUpdate: 'Переданы некорректные данные при обновлении данных профиля пользователя',
+    },
+
+    movies: {
+      validationSaving: 'Переданы некорректные данные при сохранении фильма в личном кабинете пользователя',
+    },
+  },
+
+  401: {
+    users: {
+      unathorized: 'Неправильный пароль',
+    },
+  },
+
+  403: {
+    movies: {
+      accessRightsDeletion: 'Нет прав доступа для удаления фильма из личного кабинета другого пользователя',
+    },
+  },
+
+  404: {
+    users: {
+      idNotFound: 'Пользователь с таким id не найден',
+      emailRegistration: 'Пользователь с такой почтой не зарегистрирован',
+    },
+
+    movies: {
+      userIdNotFound: 'Данные фильмов пользователя с указанным id не найдены',
+      dataNotFound: 'Данные фильма по указанному id не найдены',
+    },
+  },
+
+  409: {
+    users: {
+      emailDuplication: 'Пользователь с такой почтой уже зарегистрирован',
+    },
+  },
 };
+
+module.exports = RESPONSE_MESSAGES;
