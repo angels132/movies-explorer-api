@@ -3,7 +3,12 @@ const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
 
-const { EMAIL_REGEX, PASSWORD_REGEX } = require('../utils/constants');
+const NOT_FOUND_ERROR = require('../utils/errors/NotFoundError');
+const RESPONSE_MESSAGES = require('../utils/constants');
+
+const { emailRegistration } = RESPONSE_MESSAGES[404].users;
+
+const { EMAIL_REGEX } = require('../utils/validation');
 
 const userSchema = new Schema(
   {
@@ -21,10 +26,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
       select: false,
-      validate: {
-        validator: (password) => PASSWORD_REGEX.test(password),
-        message: 'Пароль должен состоять минимум из 8 символов, включать 1 букву латиницы, цифру и спецсимвол',
-      },
     },
 
     name: {
@@ -55,7 +56,7 @@ const userSchema = new Schema(
                 });
             }
 
-            return Promise.reject();
+            throw new NOT_FOUND_ERROR(emailRegistration);
           });
       },
     },
