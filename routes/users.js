@@ -1,9 +1,13 @@
 const router = require('express').Router();
 
-const { setCurrentUserInfoValidation } = require('../utils/validation');
-const { getCurrentUserInfo, setCurrentUserInfo } = require('../controllers/users');
+const {
+  getCurrentUser,
+  updateUserInfo,
+} = require('../controllers/users');
 
-router.get('/me', getCurrentUserInfo);
-router.patch('/me', setCurrentUserInfoValidation, setCurrentUserInfo);
+const validation = require('../middlewares/validation');
+
+router.get('/me', getCurrentUser);
+router.patch('/me', validation.updateUserInfo, updateUserInfo);
 
 module.exports = router;

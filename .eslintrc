@@ -1,24 +1,8 @@
 {
-  "env": {
-    "commonjs": true,
-    "es2021": true,
-    "node": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "airbnb-base"
-  ],
-  "overrides": [],
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  },
-  "plugins": [
-    "require"
-  ],
+  "extends": "airbnb-base",
   "rules": {
     "no-underscore-dangle": [
-      "error",
-      {
+      "error", {
         "allow": [
           "_id"
         ]
@@ -26,3 +10,4 @@
     ]
   }
 }
+

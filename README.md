@@ -1,7 +1,9 @@
-# movies-explorer-api БЭКЕНД дипломной работы
+# Проект movies-explorer (backend)
+---------------------------------
 
-Адрес репозитория: https://github.com/angels132/movies-explorer-api
+## Описание проекта
+Сервис по поиску фильмов и добавление их в избранноею 
 
-Ссылки на проект:
-IP: 158.160.65.51
-Backend: http://api.miku.nomoredomainsrocks.ru/
+## Ссылки на проект
+
+IP: 158.160.65.51 Backend: http://api.miku.nomoredomainsrocks.ru/
