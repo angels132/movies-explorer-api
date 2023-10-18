@@ -28,9 +28,9 @@ const User = require('../models/user');
 function registerUser(req, res, next) {
   const { email, password, name } = req.body;
 
-  if (!PASSWORD_REGEX.test(password)) {
-    throw new INACCURATE_DATA_ERROR(passwordRequirements);
-  }
+  // if (!PASSWORD_REGEX.test(password)) {
+  //   throw new INACCURATE_DATA_ERROR(passwordRequirements);
+  // }
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
